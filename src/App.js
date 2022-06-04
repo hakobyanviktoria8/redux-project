@@ -1,35 +1,47 @@
-import logo from './logo.svg';
+import React from "react"
 import './App.css';
 import {createStore} from "redux";
 import {Provider} from "react-redux";
+import {
+    BrowserRouter as Router,
+    Switch,
+    Route,
+    Link
+} from "react-router-dom";
+import Home from "./components/Home";
+import Movies from "./components/Movies";
+import rootReducer from "./reduser/rootReducer";
+import {composeWithDevTools} from "redux-devtools-extension"
 
-const hello = () => ("hello")
-const store = createStore(hello)
+
+
+const store = createStore(
+    rootReducer,
+    {},
+    composeWithDevTools(),
+)
 
 function App() {
     return (
-        <Provider>
-            <div className="App">
-                <header className="App-header">
-                    <img src={logo} className="App-logo" alt="logo"/>
-                    <p>
-                        Edit <code>src/App.js</code> and save to reload.
-                    </p>
-                    <a
-                        className="App-link"
-                        href="https://reactjs.org"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                    >
-                        Learn React
-                    </a>
-                </header>
-            </div>
+        <Provider store={store}>
+            <Router>
+                <div className="App">
+                    <header className="App-header">
+                        <Link to="/">Home</Link>
+                        <Link to="/movies">Movies</Link>
+                    </header>
+                    <Switch>
+                        <Route exact path="/" component={Home}/>
+                        <Route exact path="/movies" component={Movies}/>
+                    </Switch>
+                </div>
+            </Router>
         </Provider>
     );
 }
 
 export default App;
+
 
 // const defaultState = {
 //     welcome: "Hi",
